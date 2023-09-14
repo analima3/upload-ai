@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload-videos
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----file-boundary
+
+------file-boundary
+Content-Disposition: form-data; name="audio"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------file-boundary--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/6254ec32-84ac-4e77-92d9-c8885c48d3ff/transcription
+Content-Type:  application/json
+
+{
+  "prompt": "man, box, feed, eye"
+}
+
+###
+
+# @name ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type:  application/json
+
+{
+  "videoId": "e433e638-2a6c-437b-8e72-37127be6d1a5",
+  "temperature": 0.3,
+  "prompt": "Gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''"
+}
